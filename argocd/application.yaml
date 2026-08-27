@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mini-site
+  namespace: argocd
+spec:
+  project: default
+
+  # <-- Remplace par l'URL de TON repo GitHub -->
+  source:
+    repoURL: https://github.com/TON-UTILISATEUR/mini-site-gitops.git
+    targetRevision: HEAD
+    path: k8s
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    automated:
+      prune: true      # supprime les ressources retirées du repo
+      selfHeal: true    # corrige tout écart manuel détecté dans le cluster
+    syncOptions:
+      - CreateNamespace=true

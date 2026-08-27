@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mini-site
+  namespace: default
+  labels:
+    app: mini-site
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: mini-site
+  template:
+    metadata:
+      labels:
+        app: mini-site
+    spec:
+      containers:
+        - name: mini-site
+          image: mini-site:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "32Mi"
+            limits:
+              cpu: "200m"
+              memory: "64Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10

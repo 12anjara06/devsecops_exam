@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mini-site
+  namespace: default
+  labels:
+    app: mini-site
+spec:
+  type: ClusterIP
+  selector:
+    app: mini-site
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
