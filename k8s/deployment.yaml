@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: mini-site
-          image: mini-site:latest
+          image: httpd:alpine
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
@@ -40,3 +40,10 @@ spec:
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 10
+          volumeMounts:
+            - name: site-content
+              mountPath: /usr/local/apache2/htdocs/
+      volumes:
+        - name: site-content
+          configMap:
+            name: mini-site-content
